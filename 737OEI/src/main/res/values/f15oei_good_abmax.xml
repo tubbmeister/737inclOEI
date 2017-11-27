@@ -2,7 +2,7 @@
 <resources><integer-array name="f15oei_good_abmax">
     <item>4760</item>
     <item>330</item>
-    <item>-350</item>
+    <item>350</item>
     <item>120</item>
     <item>-200</item>
     <item>-680</item>

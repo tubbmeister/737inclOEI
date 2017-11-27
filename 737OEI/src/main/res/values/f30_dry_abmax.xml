@@ -3,7 +3,7 @@
     <integer-array name="f30_dry_abmax">
         <item>3320</item>
         <item>240</item>
-        <item>-230</item>
+        <item>230</item>
         <item>70</item>
         <item>-120</item>
         <item>-420</item>

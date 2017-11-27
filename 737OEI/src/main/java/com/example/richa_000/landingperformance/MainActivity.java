@@ -237,12 +237,14 @@ public class MainActivity extends AppCompatActivity {
         slopeAdjustNum = Double.parseDouble(slopeAdjust);
 
      //  int selectedId = radioGroup.getCheckedRadioButtonId();
+        int baseWeight=48000;
+        int stopper=0; // to control iteration
         oeif15 = (RadioButton) findViewById(R.id.radioButton6);
         flaps30 = (RadioButton) findViewById(R.id.radioButton);
         flaps40 = (RadioButton) findViewById(R.id.radioButton2);
         if(flaps30.isChecked()) {
             flaps = "thirty";
-            ii = 0;
+            stopper = 0;
             stop=0;
             // textView.setText("You chose 'Sound' option");
         }
@@ -250,12 +252,15 @@ public class MainActivity extends AppCompatActivity {
          else if (flaps40.isChecked())   {
             flaps = "forty";
             ii=8;
-            stop = 8; //get iteration to end MUST CHECK
+            stop=0;
+            stopper = 8; //get iteration to end MUST CHECK
         }
 
         else if (oeif15.isChecked())   {
             flaps = "oeif15";
-            ii=8; //need new number
+            stopper=16;
+            ii=16; //need new number
+            stop=0;
         }
 
 
@@ -279,27 +284,35 @@ public class MainActivity extends AppCompatActivity {
         //trNum = Double.parseDouble(spdadjust);
                weight = ("" + myNum); //convert int to str
         Resources r = getResources();
+        int printResult =-1;
+            for ( ii = stopper; ii <= 19; ii++) {
 
-            for ( ii = 0; ii <= 16; ii++) {
-                int printResult =0;
                 stop++;
                 if (ii == 0) {
                     bases = r.getIntArray(R.array.f30_dry_ab3);
                     printResult++;
+                    TextView textView7 = (TextView) findViewById(R.id.textView7);
+                    textView7.setText("AB 3");
                 }
 
                 else if (ii == 1) {
                     bases = r.getIntArray(R.array.f30_dry_ab2);
                     printResult++;
+                    TextView textView8 = (TextView) findViewById(R.id.textView8);
+                    textView8.setText("AB 2");
                 }
 
                 else if (ii == 2) {
                      bases = r.getIntArray(R.array.f30_dry_ab1);
                     printResult++;
+                    TextView textView14 = (TextView) findViewById(R.id.textView14);
+                    textView14.setText("AB 1");
                 }
                 else if (ii == 3) {
                     bases = r.getIntArray(R.array.f30_dry_abmax);
                     printResult++;
+                    TextView textView2 = (TextView) findViewById(R.id.textView2);
+                    textView2.setText("AB Max");
                 }
                 else if (ii == 4) {
                     bases = r.getIntArray(R.array.f30_good_abmax);
@@ -320,18 +333,26 @@ public class MainActivity extends AppCompatActivity {
                 else if (ii == 8) {
                     bases = r.getIntArray(R.array.f40_dry_ab3);
                     printResult=0;
+                    TextView textView7 = (TextView) findViewById(R.id.textView7);
+                    textView7.setText("AB 3");
                }
                 else if (ii == 9) {
                     bases = r.getIntArray(R.array.f40_dry_ab2);
                     printResult++;
+                    TextView textView8 = (TextView) findViewById(R.id.textView8);
+                    textView8.setText("AB 2");
                 }
                 else if (ii == 10) {
                     bases = r.getIntArray(R.array.f40_dry_ab1);
                     printResult++;
+                    TextView textView14 = (TextView) findViewById(R.id.textView14);
+                    textView14.setText("AB 1");
                 }
                 else if (ii == 11) {
                     bases = r.getIntArray(R.array.f40_dry_abmax);
                     printResult++;
+                    TextView textView2 = (TextView) findViewById(R.id.textView2);
+                    textView2.setText("AB Max");
                 }
                 else if (ii == 12) {
                     bases = r.getIntArray(R.array.f40_good_abmax);
@@ -349,10 +370,44 @@ public class MainActivity extends AppCompatActivity {
                     bases = r.getIntArray(R.array.f40_good_ab1);
                     printResult++;
                 }
+
+                else if (ii == 16) {
+                    bases = r.getIntArray(R.array.f15oei_dry_max_man);
+                    printResult++;
+                    TextView textView2 = (TextView) findViewById(R.id.textView2);
+                    textView2.setText("OEI!");
+                    TextView textView7 = (TextView) findViewById(R.id.textView7);
+                    textView7.setText("Max Man");
+                    TextView textView9 = (TextView) findViewById(R.id.textView9);
+                    textView9.setText("");
+                    TextView textView13 = (TextView) findViewById(R.id.textView13);
+                    textView13.setText("");
+                }
+                else if (ii == 17) {
+                    bases = r.getIntArray(R.array.f15oei_dry_abmax);
+                    printResult++;
+                    TextView textView8 = (TextView) findViewById(R.id.textView8);
+                    textView8.setText("AB Max");
+                }
+
+                else if (ii == 18) {
+                    bases = r.getIntArray(R.array.f15oei_dry_ab2);
+                    printResult++;
+                    TextView textView14 = (TextView) findViewById(R.id.textView14);
+                    textView14.setText("AB2");
+
+
+                }
+
+
                 double ref_dist, ref_dist1, ref_dist2, ref_dist3, ref_dist4, ref_dist5, ref_dist6, ref_dist7,ref_dist8,ref_dist9,cross;
 
+                if (flaps=="oeif15") {
+                     baseWeight=55000; //to cater for different weight datum f15
+                }
+                else baseWeight=48000;
                 ref_dist = bases[0]; // get first element of array
-                ref_dist = ref_dist + (((myNum - 48000) / 5000) * bases[1]);
+                ref_dist = ref_dist + (((myNum - baseWeight) / 5000) * bases[1]);
                 ref_dist1 = (elevationNum / 1000) * bases[3];
                 ref_dist2 = (15 - (elevationNum / 1000) * 2) - (tempNum);
 
@@ -435,43 +490,44 @@ public class MainActivity extends AppCompatActivity {
             else if (printResult==1){
                 TextView textView1 = (TextView) findViewById(R.id.textView3);
                 textView1.setText(weight);
-                printResult++;
+
             }
 
             else if (printResult==2){
                 TextView textView1 = (TextView) findViewById(R.id.textView4);
                 textView1.setText(weight);
-                printResult++;
+
             }
             else if (printResult==3){
                 TextView textView1 = (TextView) findViewById(R.id.textView9);
                 textView1.setText(weight);
-                printResult++;
+
             }
-            else if (printResult==4){
+            else if (printResult==4) {
                 TextView textView1 = (TextView) findViewById(R.id.textView13);
                 textView1.setText(weight);
-                printResult++;
+
             }
-            else if (printResult==5){
+
+             else if (printResult==5){
                 TextView textView1 = (TextView) findViewById(R.id.textView12);
                 textView1.setText(weight);
-                printResult++;
+
             }
             else if (printResult==6){
                 TextView textView1 = (TextView) findViewById(R.id.textView11);
                 textView1.setText(weight);
-                printResult++;
+
             }
             else if (printResult==7){
                 TextView textView1 = (TextView) findViewById(R.id.textView10);
                 textView1.setText(weight);
-                printResult++;
+
             }
              else   if (ii==8) {
                     TextView textView1 = (TextView) findViewById(R.id.textView);
                     textView1.setText(weight);
-                printResult++;
+
                 }
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -484,8 +540,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 //======== Hide Virtual Keyboard =====================//
-        if (stop==8) {
-            ii=16;
+        if (stop==8 || stop==16) { //  || is "or"
+            ii=19;
         }
 
     }

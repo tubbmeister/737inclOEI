@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="f40_good_ab2">
+        <item>6040</item>
+        <item>600</item>
+        <item>-550</item>
+        <item>170</item>
+        <item>-300</item>
+        <item>-1020</item>
+        <item>-160</item> <!-- must be minus to work!!! -->
+        <item>-160</item>
+        <item>480</item>
+        <item>-100</item><!-- % slope -->
+        <item>-130</item>
+        <item>230</item>  <!-- 1 t/r -->
+        <item>230</item>  <!-- 0 t/r -->
+
+
+
+
+
+    </integer-array>
+
+
+</resources>

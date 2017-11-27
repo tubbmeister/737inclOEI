@@ -7,11 +7,11 @@
         <item>190</item>
         <item>-310</item>
         <item>-1070</item>
-        <item>-160</item> <!-- must be minus to work!!! -->
+        <item>-180</item> <!-- must be minus to work!!! -->
+        <item>-180</item>
+        <item>160</item>   <!-- app spd adjust -->
         <item>-160</item>
-        <item>440</item>   <!-- app spd adjust -->
-        <item>-180</item>
-        <item>-180</item>
+        <item>440</item>
         <item>640</item>  <!-- 1 t/r -->
         <item>950</item>  <!-- 0 t/r -->
 

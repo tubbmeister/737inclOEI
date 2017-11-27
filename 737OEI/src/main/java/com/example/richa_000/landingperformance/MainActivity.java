@@ -238,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
 
      //  int selectedId = radioGroup.getCheckedRadioButtonId();
         int baseWeight=48000;
+        int appspdadj=10;
+        double heavy;
         int stopper=0; // to control iteration
         oeif15 = (RadioButton) findViewById(R.id.radioButton6);
         flaps30 = (RadioButton) findViewById(R.id.radioButton);
@@ -285,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
                weight = ("" + myNum); //convert int to str
         Resources r = getResources();
         int printResult =-1;
-            for ( ii = stopper; ii <= 19; ii++) {
+            for ( ii = stopper; ii <= 22; ii++) {
 
                 stop++;
                 if (ii == 0) {
@@ -373,7 +375,8 @@ public class MainActivity extends AppCompatActivity {
 
                 else if (ii == 16) {
                     bases = r.getIntArray(R.array.f15oei_dry_max_man);
-                    printResult++;
+                    printResult=0;
+
                     TextView textView2 = (TextView) findViewById(R.id.textView2);
                     textView2.setText("OEI!");
                     TextView textView7 = (TextView) findViewById(R.id.textView7);
@@ -398,16 +401,37 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-
+                else if (ii == 19) {
+                    bases = r.getIntArray(R.array.f15oei_good_max_man);
+                    printResult=printResult+3;
+                }
+                else if (ii == 20) {
+                    bases = r.getIntArray(R.array.f15oei_good_abmax);
+                    printResult++;
+                }
+                else if (ii == 21) {
+                    bases = r.getIntArray(R.array.f15oei_good_ab2);
+                    printResult++;
+                }
 
                 double ref_dist, ref_dist1, ref_dist2, ref_dist3, ref_dist4, ref_dist5, ref_dist6, ref_dist7,ref_dist8,ref_dist9,cross;
 
                 if (flaps=="oeif15") {
                      baseWeight=55000; //to cater for different weight datum f15
+                    appspdadj=5;
                 }
                 else baseWeight=48000;
                 ref_dist = bases[0]; // get first element of array
-                ref_dist = ref_dist + (((myNum - baseWeight) / 5000) * bases[1]);
+
+                heavy=((myNum - baseWeight) / 5000);
+                if (heavy<0) {
+                    heavy=(heavy*bases[2]);
+                }
+                else heavy=heavy*bases[1];
+
+
+                ref_dist = ref_dist + heavy;
+
                 ref_dist1 = (elevationNum / 1000) * bases[3];
                 ref_dist2 = (15 - (elevationNum / 1000) * 2) - (tempNum);
 
@@ -415,9 +439,9 @@ public class MainActivity extends AppCompatActivity {
 
                 ref_dist8=slopeAdjustNum;
                 if (ref_dist8 > 0) {
-                    ref_dist8 = (ref_dist8  * bases[9]);
+                    ref_dist8 = (ref_dist8  * bases[6]);
                 } else {
-                    ref_dist8 = (ref_dist8  * bases[10]);
+                    ref_dist8 = (ref_dist8  * bases[7]);
                 }
 
 
@@ -435,11 +459,11 @@ public class MainActivity extends AppCompatActivity {
                     ref_dist9=(bases[12]);
                 }
                 if (ref_dist2 > 0) {
-                    ref_dist2 = (ref_dist2 / 10) * bases[7];
+                    ref_dist2 = (ref_dist2 / 10) * bases[9];
                 } else {
-                    ref_dist2 = (ref_dist2 / 10) * bases[6];
+                    ref_dist2 = (ref_dist2 / 10) * bases[8];
                 }
-                ref_dist7 = (spdadjustNum / 10) * bases[8];
+                ref_dist7 = (spdadjustNum / appspdadj) * bases[10];
                 double windissue,windissue1;
                 windissue = (winddctnNum - (rwdctnNum * 10));
                 windissue = (windissue) * (3.14159265358979 / 180);
@@ -524,11 +548,7 @@ public class MainActivity extends AppCompatActivity {
                 textView1.setText(weight);
 
             }
-             else   if (ii==8) {
-                    TextView textView1 = (TextView) findViewById(R.id.textView);
-                    textView1.setText(weight);
 
-                }
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
